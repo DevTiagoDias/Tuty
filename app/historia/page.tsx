@@ -9,6 +9,7 @@
 import React, { useEffect, useRef } from 'react';
 import Reveal from '@/components/Story/Reveal';
 import CinematicImage from '@/components/Story/CinematicImage';
+import FilmRoll from '@/components/Story/FilmRoll';
 
 export default function HistoriaPage() {
   const heroContentRef = useRef<HTMLDivElement>(null);
@@ -68,7 +69,7 @@ export default function HistoriaPage() {
         <div ref={heroContentRef} style={{ willChange: 'transform, opacity' }}>
           <Reveal direction="down" delay={200}>
             <p className="text-rose-800 tracking-[0.4em] uppercase text-sm mb-6 font-semibold">
-              Uma jornada de amor
+              Feliz Dia dos Namorados Minha Princesa
             </p>
           </Reveal>
 
@@ -89,7 +90,7 @@ export default function HistoriaPage() {
         {/* Scroll indicator — fica fora do parallax para não sumir cedo demais */}
         <Reveal delay={2000} className="absolute bottom-12 animate-pulse">
           <span className="text-xs text-stone-500 tracking-[0.3em] uppercase">
-            Deslize para ler
+            Desce ai meu bem kkk
           </span>
         </Reveal>
       </section>
@@ -112,53 +113,59 @@ export default function HistoriaPage() {
                 className="text-lg md:text-xl text-stone-400 font-serif leading-relaxed mb-6"
                 style={{ fontFamily: 'var(--font-lora)' }}
               >
-                Quando os nossos caminhos se cruzaram pela primeira vez, o mundo pareceu parar por
-                um segundo. Foi o início de um capítulo que mudaria tudo.
+                Eu me lembro muito bem da primeira vez que nos vimos foi tão bom que eu lembro de cada detalhe
+                uma das coisas principais que me ocorreram enquanto eu estava a caminha era estar em ligação com 
+                o Gabriel(eu ta va muito nervoso pra te ver kakak) eu lembro de estar soando no carro e quando desci
+                na frente do shopping e te vi pela primeira vez foi como um estalo de dedos, "Uauuu essa é a garota mais linda que eu ja vi"
+                foi o que eu pensei na hora e todo travado eu me fui até vc pra te impressionar e parecer super confiante kakaka
+                mas eu quando eu te abracei eu me senti todo o nervosismo que tinha de te ver sumindo e apenas ficando 
+                a vontade de fazer vc se apaixonar por mim e dai pra frente foi so cada coisa esquisita akakka um dos melhores dias da minha vida
               </p>
               <p
                 className="text-lg md:text-xl text-stone-400 font-serif leading-relaxed"
                 style={{ fontFamily: 'var(--font-lora)' }}
               >
-                Esta página foi desenhada para guardar e proteger esses fragmentos de memória,
-                como uma galeria de arte privada feita apenas para nós.
+                E bom pode parecer estranho mas aqui vai ser nossa propria galeria assim como teu lugarzinho na internet tbm kkk.
               </p>
             </Reveal>
           </div>
 
           <div className="md:col-span-7 order-1 md:order-2">
-            {/* parallaxStrength: 0.6 = movimento moderado, bom para imagens grandes */}
-            <CinematicImage
-              title="O Nosso Primeiro Encontro"
-              subtitle="Data do encontro aqui"
-              aspectRatio="aspect-[4/5] md:aspect-[3/4]"
-              parallaxStrength={0.6}
-              // src="/images/primeiro-encontro.jpg"
-            />
+          {/* parallaxStrength: 0.6 = movimento moderado, bom para imagens grandes */}
+          <CinematicImage
+            title="O Nosso Primeiro Encontro"
+            subtitle="05/07/2025"
+            aspectRatio="aspect-[4/5] md:aspect-[3/4]"
+            parallaxStrength={0.6}
+            src="/images/foto1.jpg"
+          />
           </div>
 
         </div>
       </section>
 
-      {/* ── CAPÍTULO 2: CITAÇÃO + IMAGEM PANORÂMICA ──────────────────────────── */}
-      <section className="max-w-7xl mx-auto w-full px-6 md:px-16 pt-32 md:pt-48">
-        <Reveal direction="up" className="text-center max-w-4xl mx-auto mb-20">
+      {/* ── CAPÍTULO 2: CITAÇÃO + ROLO DE FILME ──────────────────────────── */}
+      <section className="max-w-[100vw] w-full pt-32 md:pt-48 overflow-hidden">
+        <Reveal direction="up" className="text-center max-w-4xl mx-auto mb-20 px-6">
           <p
             className="text-3xl md:text-5xl text-stone-300 font-serif leading-snug"
             style={{ fontFamily: 'var(--font-playfair)' }}
           >
-            &quot;Os melhores momentos são aqueles que não planeamos, mas que passam a definir quem somos.&quot;
+            &quot;Os nossos melhores momentos.&quot;
           </p>
         </Reveal>
 
         <Reveal delay={300}>
-          {/* parallaxStrength: 0.4 = sutil para widescreen (o movimento seria muito
-              visível em aspect-ratios horizontais com strength mais alto) */}
-          <CinematicImage
-            title="Momentos inesquecíveis"
-            subtitle="Viagem ou momento marcante"
-            aspectRatio="aspect-video md:aspect-[21/9]"
-            parallaxStrength={0.4}
-            // src="/images/panoramica.jpg"
+          <FilmRoll 
+            images={[
+              "/images/foto2.jpg",
+              "/images/foto3.jpg",
+              "/images/foto4.jpg",
+              "/images/foto5.jpg",
+              "/images/foto8.jpg",
+              "/images/foto9.jpg",
+              "/images/foto10.jpg"
+            ]} 
           />
         </Reveal>
       </section>
@@ -172,7 +179,7 @@ export default function HistoriaPage() {
               title="Nosso dia a dia"
               aspectRatio="aspect-square"
               parallaxStrength={0.5}
-              // src="/images/dia-a-dia.jpg"
+              src="/images/foto11.jpg" 
             />
           </div>
 
@@ -190,9 +197,15 @@ export default function HistoriaPage() {
                 className="text-lg md:text-xl text-stone-400 font-serif leading-relaxed"
                 style={{ fontFamily: 'var(--font-lora)' }}
               >
-                São nos detalhes simples que o nosso amor se torna gigante. As conversas, os sorrisos
-                fáceis, a parceria incondicional. Aqui ficará o espaço para declarar como a rotina
-                ao lado dela é o seu momento favorito.
+                É cada pequeno detalhe que sempre me faz te amar cada vez mais por isso essa aba se chama pequenas coisas,
+                são os momentos que tu até pode achar que passam despercebidos mas eu sempre notokkk(TDAH),
+                quando você fica sem graça e se encolhe sem mesmo ter onde se esconder eu acho mt fofo e amo muito isso, quando você você ri genuinamente
+                que não é uma risada fina nem grossa mas sim uma risada infantil de quem ta rindo com cada pedacinho eu amo isso,
+                quando você começa a fazer teus dramas e eu tenho que me de desenrolar das formas mais esquisitas para te fazer desistir eu adoro isso e amo,
+                quando você se emburra e enche as bochecas sem querer eu amo isso, 
+                quando você acha algo muito empolgannte e você começa a fazer gestos com suas mãos pra interpretar tua animação eu amo isso,
+                quando você finge estar muito corajosa em filmes de terror mas na verdade você esta morrendo de medo eu amo isso ,
+                eu amo cada pequeno detalhe de ti , até os que eu não conto, eu amo tudo em você obrigado por me amar meu bem.
               </p>
             </Reveal>
           </div>
@@ -200,8 +213,52 @@ export default function HistoriaPage() {
         </div>
       </section>
 
+      {/* ── CAPÍTULO 4: PÁGINAS EM BRANCO ────────────────────────────────────── */}
+      <section className="max-w-7xl mx-auto w-full px-6 md:px-16 pt-32 pb-16">
+        <Reveal direction="up" className="text-center max-w-2xl mx-auto mb-16">
+          <h2 className="text-3xl md:text-5xl text-rose-800 font-serif mb-4" style={{ fontFamily: 'var(--font-playfair)' }}>
+            O que ainda está por vir
+          </h2>
+          <p className="text-stone-400 font-serif" style={{ fontFamily: 'var(--font-lora)' }}>
+            Espaços reservados para os próximos capítulos da nossa aventura.
+          </p>
+        </Reveal>
+
+        {/* Contentor com position: relative para segurar o botão no centro */}
+        <div className="relative grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center">
+          
+          {/* Imagem 1 (Esquerda) */}
+          <Reveal direction="left">
+            <CinematicImage
+              title="Nova Memória"
+              aspectRatio="aspect-square"
+              parallaxStrength={0.4}
+              src="/images/foto7.jpg" 
+            />
+          </Reveal>
+
+          {/* Botão Central (Flutuante no meio das duas imagens) */}
+          <Reveal delay={600} className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-none">
+            <div className="bg-rose-950/95 backdrop-blur-xl border border-rose-800 text-stone-100 text-xs md:text-sm font-semibold tracking-widest uppercase px-6 py-3 md:px-8 md:py-4 rounded-full shadow-[0_0_40px_rgba(0,0,0,0.9)] whitespace-nowrap">
+              Em breve
+            </div>
+          </Reveal>
+
+          {/* Imagem 2 (Direita) */}
+          <Reveal direction="right" delay={200}>
+            <CinematicImage
+              title="Nova Memória"
+              aspectRatio="aspect-square"
+              parallaxStrength={0.4}
+              src="/images/foto6.jpg" 
+            />
+          </Reveal>
+
+        </div>
+      </section>
+
       {/* ── ENCERRAMENTO ─────────────────────────────────────────────────────── */}
-      <section className="max-w-3xl mx-auto px-6 pt-48 pb-20 text-center flex flex-col items-center">
+      <section className="max-w-3xl mx-auto px-6 pt-32 pb-32 text-center flex flex-col items-center">
         <Reveal direction="up">
           <svg
             viewBox="0 0 24 24"
@@ -217,7 +274,7 @@ export default function HistoriaPage() {
             className="text-4xl md:text-6xl text-stone-100 font-serif leading-tight mb-8"
             style={{ fontFamily: 'var(--font-playfair)' }}
           >
-            Este é apenas o nosso prefácio. O melhor da história ainda está por vir.
+            Este é apenas o nosso início. Temos mais momentos incríveis por vir.
           </h2>
         </Reveal>
 
@@ -226,7 +283,19 @@ export default function HistoriaPage() {
             className="text-2xl text-stone-500 font-serif italic"
             style={{ fontFamily: 'var(--font-lora)' }}
           >
-            Com todo o meu amor, para ti.
+            Com toda minha alma por ti
+          </p>
+          <p
+            className="text-2xl text-stone-500 font-serif italic"
+            style={{ fontFamily: 'var(--font-lora)' }}
+          >
+            EU TE AMO
+          </p>
+          <p
+            className="text-2xl text-stone-500 font-serif italic"
+            style={{ fontFamily: 'var(--font-lora)' }}
+          >
+            FELIZ PRIMEIRO DIA DOS NAMORADOS
           </p>
         </Reveal>
       </section>
