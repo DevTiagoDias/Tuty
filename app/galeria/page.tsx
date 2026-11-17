@@ -11,7 +11,7 @@ export default async function Galeria() {
 
   return (
     // Fundo preto e texto base branco
-    <div className="min-h-screen pt-24 pb-12 px-4 sm:px-8 bg-black text-white">
+    <div className="min-h-screen pt-24 pb-24 px-4 sm:px-8 bg-black text-white">
       
       <div className="max-w-6xl mx-auto">
         {/* Cabeçalho */}
@@ -60,6 +60,30 @@ export default async function Galeria() {
             <p className="text-sm mt-2">Vá na página inicial e faça o primeiro upload! 📸</p>
           </div>
         )}
+
+        {/* Seção Secreta do Mini-Jogo (aparece ao rolar mais para baixo da galeria) */}
+        <div className="mt-32 pt-12 border-t border-zinc-900 flex flex-col items-center justify-center text-center">
+          <div className="max-w-md w-full bg-zinc-900/80 border border-zinc-800 hover:border-rose-500/50 rounded-2xl p-8 shadow-[0_0_25px_rgba(244,63,94,0.1)] transition-all duration-300">
+            <span className="text-xs uppercase tracking-widest text-rose-400 font-semibold">
+              ✨ Surpresa Desbloqueada ✨
+            </span>
+            <h2 className="text-2xl md:text-3xl font-bold text-rose-500 mt-2 font-serif">
+              A Nossa Aventura 2D
+            </h2>
+            <p className="text-zinc-400 mt-2 text-sm italic font-serif">
+              Um mini-jogo de 4 fases sobre a nossa história. Consegue zerar todas?
+            </p>
+
+            <Link
+              href="/jogo"
+              className="mt-6 inline-flex items-center gap-2 bg-rose-600 hover:bg-rose-500 active:scale-95 text-white font-semibold px-6 py-3 rounded-full shadow-lg shadow-rose-600/30 transition-all"
+            >
+              <span>Jogar Agora</span>
+              <span>🎮</span>
+            </Link>
+          </div>
+        </div>
+
       </div>
     </div>
   )
