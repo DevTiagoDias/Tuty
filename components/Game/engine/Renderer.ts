@@ -3,10 +3,8 @@
 import { LevelConfig } from "../types/game.types";
 import { Player } from "../entities/Player";
 import { AssetManager } from "./AssetManager";
-import { ParticleSystem } from "./ParticleSystem";
 
 export class Renderer {
-  // Mapa de pixels para desenhar corações em Pixel Art
   private static readonly HEART_PIXEL_MAP = [
     [0, 1, 1, 0, 0, 1, 1, 0],
     [1, 2, 2, 1, 1, 1, 1, 1],
@@ -17,7 +15,6 @@ export class Renderer {
     [0, 0, 0, 1, 1, 0, 0, 0],
   ];
 
-  // Timer interno de animação caso o Player ainda não tenha animTimer
   private static internalTimer = 0;
 
   static draw(
@@ -25,38 +22,19 @@ export class Renderer {
     canvas: HTMLCanvasElement,
     level: LevelConfig,
     player: Player,
-    allCollected: boolean,
-    particles?: ParticleSystem,
-    time?: number
+    allCollected: boolean
   ) {
-    this.internalTimer += 0.12;
-    const currentTime = time ?? this.internalTimer;
+    this.internalTimer += 0.14;
 
-    // Mantém os pixels nítidos (sem borrado de anti-aliasing)
     ctx.imageSmoothingEnabled = false;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // 1. Background (Se houver imagem de cenário da fase, usa ela; senão, usa o tema + montanhas pixel art)
-    const bgSpritePath = (level as any).sprites?.background;
-    const bgImg = bgSpritePath ? AssetManager.getSpriteSheet(bgSpritePath) : null;
+    // 1. Fundo + Montanhas em Pixel Art
+    ctx.fillStyle = level.theme.background;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    this.drawPixelMountains(ctx, canvas.width, canvas.height, level.theme.accent);
 
-    if (bgImg) {
-      ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
-    } else {
-      ctx.fillStyle = level.theme.background;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      this.drawPixelMountains(ctx, canvas.width, canvas.height, level.theme.accent);
-    }
-
-    // Partículas de ambiente (se o ParticleSystem estiver ativo)
-    if (particles) {
-      for (const dot of particles.ambientDots) {
-        ctx.fillStyle = `rgba(255, 255, 255, ${dot.alpha})`;
-        ctx.fillRect(Math.floor(dot.x), Math.floor(dot.y), dot.size, dot.size);
-      }
-    }
-
-    // 2. Plataformas em estilo Pixel Art
+    // 2. Plataformas em Pixel Art
     for (const plat of level.platforms) {
       this.drawPixelPlatform(
         ctx,
@@ -69,10 +47,10 @@ export class Renderer {
       );
     }
 
-    // 3. Colecionáveis (Corações em Pixel Art com flutuação)
+    // 3. Colecionáveis (Corações Pixel Art com flutuação)
     for (const item of level.collectibles) {
       if (!item.collected) {
-        const floatOffset = Math.sin(currentTime * 3 + item.x) * 3;
+        const floatOffset = Math.sin(this.internalTimer * 2 + item.x) * 3;
         this.drawPixelHeart(
           ctx,
           Math.floor(item.x - 12),
@@ -102,20 +80,10 @@ export class Renderer {
       level.goal.y - 10
     );
 
-    // Partículas de pulo/pouso (se o ParticleSystem estiver ativo)
-    if (particles) {
-      for (const p of particles.particles) {
-        ctx.fillStyle = p.color;
-        ctx.globalAlpha = p.alpha;
-        ctx.fillRect(Math.floor(p.x), Math.floor(p.y), p.size, p.size);
-      }
-      ctx.globalAlpha = 1;
-    }
-
-    // 5. Player (Desenha a Spritesheet da sua namorada em Pixel Art)
+    // 5. Player (Sprite da tua namorada recortado perfeitamente)
     this.drawPlayerSprite(ctx, player);
 
-    // 6. HUD Interna (Contador de Corações em Pixel Art)
+    // 6. HUD Interna (Contador de Corações)
     const collectedCount = level.collectibles.filter((c) => c.collected).length;
     ctx.fillStyle = "rgba(15, 23, 42, 0.85)";
     ctx.fillRect(14, 14, 96, 32);
@@ -135,33 +103,23 @@ export class Renderer {
   private static drawPlayerSprite(ctx: CanvasRenderingContext2D, player: Player) {
     const sheet = AssetManager.getSpriteSheet("/sprites/player_sheet.png");
 
-    // Fallback: Enquanto a imagem carrega no primeiro frame, mostra o boneco padrão
-    if (!sheet) {
+    // Fallback enquanto a imagem carrega no primeiro frame
+    if (!sheet || sheet.frames.length === 0) {
       ctx.fillStyle = "#f8fafc";
-      ctx.beginPath();
-      ctx.roundRect(player.x, player.y, player.w, player.h, 6);
-      ctx.fill();
-
-      ctx.fillStyle = "#0f172a";
-      const eyeOffsetX = player.facing === "right" ? player.x + 16 : player.x + 6;
-      ctx.fillRect(eyeOffsetX, player.y + 10, 6, 6);
+      ctx.fillRect(player.x, player.y, player.w, player.h);
       return;
     }
 
-    const totalFrames = 4;
-    const frameWidth = Math.floor(sheet.width / totalFrames);
-    const frameHeight = sheet.height;
-
-    // Seleção do quadro da Spritesheet:
-    // 0 = Parada (Idle) | 1 e 2 = Correndo | 3 = Pulando
-    const animClock = (player as any).animTimer ?? this.internalTimer;
-    let currentFrame = 0;
-
+    // Seleciona o quadro: 0 = Parada, 1 e 2 = A correr, 3 = A saltar
+    let frameIndex = 0;
     if (!player.isGrounded) {
-      currentFrame = 3;
+      frameIndex = Math.min(3, sheet.frames.length - 1);
     } else if (Math.abs(player.vx) > 10) {
-      currentFrame = (Math.floor(animClock) % 2) + 1;
+      frameIndex = (Math.floor(this.internalTimer) % 2) + 1;
+      frameIndex = Math.min(frameIndex, sheet.frames.length - 1);
     }
+
+    const frame = sheet.frames[frameIndex];
 
     ctx.save();
 
@@ -170,26 +128,25 @@ export class Renderer {
 
     ctx.translate(bottomCenterX, bottomCenterY);
 
-    // Espelha horizontalmente quando ela anda para a esquerda + Squash & Stretch
+    // Espelha horizontalmente quando olha para a esquerda
     const dir = player.facing === "left" ? -1 : 1;
-    const scaleX = (player as any).scaleX ?? 1;
-    const scaleY = (player as any).scaleY ?? 1;
-    ctx.scale(scaleX * dir, scaleY);
+    ctx.scale(dir, 1);
 
-    // Dimensões visuais do sprite na tela
-    const drawWidth = 54;
-    const drawHeight = 54;
+    // Mantém a proporção real de cada pose com 48px de altura
+    const targetHeight = 48;
+    const aspect = frame.w / frame.h;
+    const targetWidth = Math.round(targetHeight * aspect);
 
     ctx.drawImage(
-      sheet,
-      currentFrame * frameWidth,
-      0,
-      frameWidth,
-      frameHeight,
-      -drawWidth / 2,
-      -drawHeight + 4,
-      drawWidth,
-      drawHeight
+      sheet.canvas,
+      frame.x,
+      frame.y,
+      frame.w,
+      frame.h,
+      -Math.floor(targetWidth / 2),
+      -targetHeight,
+      targetWidth,
+      targetHeight
     );
 
     ctx.restore();
