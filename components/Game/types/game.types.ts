@@ -1,5 +1,3 @@
-// components/Game/types/game.types.ts
-
 export interface Rect {
   x: number;
   y: number;
@@ -24,15 +22,11 @@ export interface LevelConfig {
   id: number;
   title: string;
   subtitle: string;
+  worldWidth: number;
   theme: {
     background: string;
     platform: string;
     accent: string;
-  };
-  sprites?: {
-    background?: string; // Ex: "/sprites/bg_fase1.png"
-    player?: string;     // Ex: "/sprites/player_spritesheet.png"
-    goal?: string;       // Ex: "/sprites/partner_goal.png"
   };
   spawn: Vector2D;
   goal: Rect;
