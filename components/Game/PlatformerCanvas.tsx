@@ -4,11 +4,14 @@ import React, { useEffect, useRef, useState } from "react";
 import { LEVELS_DATA } from "./levels/levels.data";
 import { InputHandler } from "./engine/InputHandler";
 import { Player } from "./entities/Player";
-import { Renderer } from "./engine/Renderer";
+import { Renderer, GAME_VIEW } from "./engine/Renderer";
 import { Physics } from "./engine/Physics";
 import { Camera2D } from "./engine/Camera2D";
 import { LevelConfig } from "./types/game.types";
 import TouchControls from "./ui/TouchControls";
+
+// O jogo roda em 800x400 "lógicos"; o canvas tem 2x pixels para ficar nítido (use 1 se o celular for fraco)
+const RENDER_SCALE = 2;
 
 export default function PlatformerCanvas() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -33,7 +36,7 @@ export default function PlatformerCanvas() {
 
     const level: LevelConfig = structuredClone(LEVELS_DATA[levelIndex]);
     const player = new Player(level.spawn);
-    const camera = new Camera2D(canvas.width, canvas.height);
+    const camera = new Camera2D(GAME_VIEW.width, GAME_VIEW.height);
 
     let lastTime = performance.now();
     let animationId: number;
@@ -46,7 +49,7 @@ export default function PlatformerCanvas() {
         player.update(dt, input, level.platforms, level.worldWidth);
         camera.follow(player, level.worldWidth, dt);
 
-        if (player.y > canvas.height + 90) {
+        if (player.y > GAME_VIEW.height + 90) {
           player.reset(level.spawn);
           camera.reset();
         }
@@ -117,9 +120,8 @@ export default function PlatformerCanvas() {
       <div className="relative w-full aspect-[2/1] rounded-xl overflow-hidden border border-neutral-800 shadow-2xl bg-slate-950">
         <canvas
           ref={canvasRef}
-          width={800}
-          height={400}
-          style={{ imageRendering: "pixelated" }}
+          width={GAME_VIEW.width * RENDER_SCALE}
+          height={GAME_VIEW.height * RENDER_SCALE}
           className="w-full h-full block touch-none"
         />
 
