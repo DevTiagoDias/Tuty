@@ -7,9 +7,11 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import React, { useEffect, useRef } from 'react';
+import Link from 'next/link';
 import Reveal from '@/components/Story/Reveal';
 import CinematicImage from '@/components/Story/CinematicImage';
 import FilmRoll from '@/components/Story/FilmRoll';
+import UploadButton from '@/components/Upload/UploadButton';
 
 export default function HistoriaPage() {
   const heroContentRef = useRef<HTMLDivElement>(null);
@@ -116,7 +118,7 @@ export default function HistoriaPage() {
                 Eu me lembro muito bem da primeira vez que nos vimos foi tão bom que eu lembro de cada detalhe
                 uma das coisas principais que me ocorreram enquanto eu estava a caminha era estar em ligação com 
                 o Gabriel(eu ta va muito nervoso pra te ver kakak) eu lembro de estar soando no carro e quando desci
-                na frente do shopping e te vi pela primeira vez foi como um estalo de dedos, "Uauuu essa é a garota mais linda que eu ja vi"
+                na frente do shopping e te vi pela primeira vez foi como um estalo de dedos, &quot;Uauuu essa é a garota mais linda que eu ja vi&quot;
                 foi o que eu pensei na hora e todo travado eu me fui até vc pra te impressionar e parecer super confiante kakaka
                 mas eu quando eu te abracei eu me senti todo o nervosismo que tinha de te ver sumindo e apenas ficando 
                 a vontade de fazer vc se apaixonar por mim e dai pra frente foi so cada coisa esquisita akakka um dos melhores dias da minha vida
@@ -258,7 +260,7 @@ export default function HistoriaPage() {
       </section>
 
       {/* ── ENCERRAMENTO ─────────────────────────────────────────────────────── */}
-      <section className="max-w-3xl mx-auto px-6 pt-32 pb-32 text-center flex flex-col items-center">
+      <section className="max-w-3xl mx-auto px-6 pt-32 pb-20 text-center flex flex-col items-center">
         <Reveal direction="up">
           <svg
             viewBox="0 0 24 24"
@@ -297,6 +299,64 @@ export default function HistoriaPage() {
           >
             FELIZ PRIMEIRO DIA DOS NAMORADOS
           </p>
+        </Reveal>
+
+        {/* ── ACESSO À GALERIA (COM O ESTILO CORRIGIDO) ──────────────────────── */}
+        <Reveal direction="up" delay={800} className="mt-16">
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <UploadButton />
+
+            <Link
+              href="/galeria"
+              className="flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-white bg-zinc-900 border border-rose-500/40 hover:bg-rose-600 hover:border-rose-500 shadow-lg transition-all duration-300 ease-in-out hover:scale-105 active:scale-95"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="currentColor"
+                className="w-5 h-5 text-rose-400"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+                />
+              </svg>
+              Ver Galeria
+            </Link>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* ── SEÇÃO SECRETA DO JOGO (MAIS ABAIXO DA GALERIA AO ROLAR) ──────────── */}
+      <section className="max-w-xl mx-auto px-6 pt-28 pb-12 text-center">
+        <Reveal direction="up" delay={300}>
+          <div className="p-8 md:p-10 rounded-3xl bg-zinc-950/90 border border-rose-900/40 hover:border-rose-600/60 shadow-[0_0_40px_rgba(225,29,72,0.12)] transition-all duration-500 flex flex-col items-center">
+            <span className="text-xs uppercase tracking-[0.3em] text-rose-500 font-semibold mb-3">
+              ✨ Fase Secreta Desbloqueada ✨
+            </span>
+            <h3
+              className="text-3xl md:text-4xl text-stone-100 font-serif mb-3"
+              style={{ fontFamily: 'var(--font-playfair)' }}
+            >
+              A Nossa Aventura 2D
+            </h3>
+            <p
+              className="text-sm md:text-base text-stone-400 font-serif italic mb-8 max-w-sm"
+              style={{ fontFamily: 'var(--font-lora)' }}
+            >
+              Transformei a nossa história num mini-jogo de plataforma de 4 fases. Será que consegues chegar até ao final?
+            </p>
+            <Link
+              href="/jogo"
+              className="inline-flex items-center gap-3 px-8 py-3.5 rounded-full bg-rose-600 hover:bg-rose-500 text-white font-semibold shadow-lg shadow-rose-600/30 transition-all duration-300 hover:scale-105 active:scale-95"
+            >
+              <span>Jogar a Nossa História</span>
+              <span>🎮</span>
+            </Link>
+          </div>
         </Reveal>
       </section>
 
